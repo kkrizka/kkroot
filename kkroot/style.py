@@ -18,6 +18,15 @@ def style(obj, **kwargs):
     if obj.InheritsFrom('TAttLine'):
         style_TAttLine(obj, **kwargs)
 
+    if obj.InheritsFrom('TAttMarker'):
+        style_TAttMarker(obj, **kwargs)
+
+    if obj.InheritsFrom('THStack'):
+        style_THStack(obj, **kwargs)
+
+    if obj.InheritsFrom('TAxis'):
+        style_TAxis(obj, **kwargs)
+
 def style_TAttLine(obj, **kwargs):
     """
     Apply style to a TAttLine object. The following properties are supported:
@@ -53,3 +62,26 @@ def style_TAttMarker(obj, **kwargs):
         if type(markercolor) is str:
             markercolor=getattr(ROOT, markercolor)
         obj.SetmarkerColor(markercolor)
+
+def style_THStack(obj, **kwargs):
+    """
+    Apply style to a THStack object. The following properties are supported:
+     - `yaxis.min` -> `obj->SetMinimum`
+     - `yaxis.max` -> `obj->SetMaximum`
+     - `yaxis.*` -> `style_TAxis(**yaxis)`
+    """
+    if 'yaxis' in kwargs:
+        yaxis=kwargs['yaxis']
+        if 'min' in yaxis:
+            obj.SetMinimum(yaxis['min'])
+        if 'max' in yaxis:
+            obj.SetMaximum(yaxis['max'])
+        style_TAxis(obj.GetYaxis(), **yaxis)
+
+def style_TAxis(obj, **kwargs):
+    """
+    Apply style to a TAxis object. The following properties are supported:
+     - `title` -> `SetTitle`
+    """
+    if 'title' in kwargs:
+        obj.SetTitle(kwargs['title'])
