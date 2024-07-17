@@ -7,6 +7,7 @@ def apply_ratio_canvas_style(c):
     c.Divide(1,2)
     pad=c.cd(1)
     pad.SetPad(0.01,0.25,0.99,0.99)
+    pad.SetBottomMargin(0)
     pad_ratio=c.cd(2)
     pad_ratio.SetBorderSize(0)
     pad_ratio.SetTopMargin(0)
